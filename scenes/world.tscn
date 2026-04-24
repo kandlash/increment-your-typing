@@ -1,0 +1,123 @@
+[gd_scene format=3 uid="uid://82wh40grg5pd"]
+
+[ext_resource type="Script" uid="uid://c5jtx2dam2hvw" path="res://scripts/input_manager.gd" id="1_4wyf3"]
+[ext_resource type="Script" uid="uid://cenc62ldt01kv" path="res://scripts/world.gd" id="1_71j4m"]
+[ext_resource type="Script" uid="uid://bj4qwcufvhp13" path="res://scripts/camera_2d.gd" id="1_rwgxs"]
+[ext_resource type="Script" uid="uid://ce1133xqf8wr5" path="res://scripts/goal_finder.gd" id="2_4wyf3"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_k0juu"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="Theme" id="Theme_71j4m"]
+Panel/styles/panel = SubResource("StyleBoxFlat_k0juu")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gv5m4"]
+bg_color = Color(0.120136164, 0.1038328, 0.095672674, 1)
+
+[sub_resource type="Theme" id="Theme_f3sb7"]
+Panel/styles/panel = SubResource("StyleBoxFlat_gv5m4")
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_rwgxs"]
+radius = 188.13028
+
+[node name="world" type="Node2D" unique_id=1710592885]
+script = ExtResource("1_71j4m")
+
+[node name="input_manager" type="Node" parent="." unique_id=497881917]
+script = ExtResource("1_4wyf3")
+
+[node name="LineEdit" type="LineEdit" parent="." unique_id=910777111]
+offset_left = -576.0
+offset_top = -370.0
+offset_right = -507.5
+offset_bottom = -339.0
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=853290037 node_paths=PackedStringArray("target")]
+script = ExtResource("1_rwgxs")
+target = NodePath("../goal_finder")
+
+[node name="Control" type="Control" parent="Camera2D" unique_id=1686431058]
+z_index = 100
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="Camera2D/Control" unique_id=97261566]
+z_index = -4096
+layout_mode = 0
+offset_left = -299.0
+offset_top = -186.0
+offset_right = 298.0
+offset_bottom = 186.0
+theme = SubResource("Theme_71j4m")
+
+[node name="Panel2" type="Panel" parent="Camera2D/Control" unique_id=1462865194]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -577.0
+offset_top = -324.0
+offset_right = -299.0
+offset_bottom = 324.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_f3sb7")
+
+[node name="Panel3" type="Panel" parent="Camera2D/Control" unique_id=1026739611]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 298.0
+offset_top = -324.0
+offset_right = 576.0
+offset_bottom = 324.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_f3sb7")
+
+[node name="Panel4" type="Panel" parent="Camera2D/Control" unique_id=1560027987]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -299.0
+offset_top = 186.0
+offset_right = 298.0
+offset_bottom = 324.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_f3sb7")
+
+[node name="Panel5" type="Panel" parent="Camera2D/Control" unique_id=1282241448]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -299.0
+offset_top = -324.0
+offset_right = 298.0
+offset_bottom = -186.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_f3sb7")
+
+[node name="goal_finder" type="Node2D" parent="." unique_id=750568693]
+script = ExtResource("2_4wyf3")
+
+[node name="Area2D" type="Area2D" parent="goal_finder" unique_id=1030632033]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="goal_finder/Area2D" unique_id=603870960]
+shape = SubResource("CircleShape2D_rwgxs")

@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://cyump1h2d8sq8"]
+
+[ext_resource type="Script" uid="uid://bkvn5ljc6x261" path="res://scripts/input_goal.gd" id="1_5fo6w"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_qfnet"]
+radius = 14.035668
+
+[node name="input_goal" type="Node2D" unique_id=1728014883]
+script = ExtResource("1_5fo6w")
+
+[node name="label" type="RichTextLabel" parent="." unique_id=929537542]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -24.0
+offset_top = -26.0
+offset_right = 24.0
+offset_bottom = 26.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "s"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Area2D" type="Area2D" parent="." unique_id=1838636524 groups=["InputGoals"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1931123282]
+shape = SubResource("CircleShape2D_qfnet")
