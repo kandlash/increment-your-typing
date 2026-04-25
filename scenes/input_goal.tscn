@@ -2,6 +2,10 @@
 
 [ext_resource type="Script" uid="uid://bkvn5ljc6x261" path="res://scripts/input_goal.gd" id="1_5fo6w"]
 
+[sub_resource type="Theme" id="Theme_5fo6w"]
+RichTextLabel/colors/default_color = Color(0.34781685, 0.34781697, 0.3478169, 1)
+RichTextLabel/font_sizes/normal_font_size = 24
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_qfnet"]
 radius = 14.035668
 
@@ -20,6 +24,7 @@ offset_right = 24.0
 offset_bottom = 26.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = SubResource("Theme_5fo6w")
 text = "s"
 horizontal_alignment = 1
 vertical_alignment = 1

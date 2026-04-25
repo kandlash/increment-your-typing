@@ -6,7 +6,7 @@ var input_manager: InputManager
 var goal_finder: GoalFinder
 
 var symbols: Array = [
-	'j', 'f', 't', 'y'
+	'j', 't', 'x', 'm'
 ]
 
 func generate_symbol():

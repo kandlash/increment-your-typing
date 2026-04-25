@@ -26,13 +26,8 @@ script = ExtResource("1_71j4m")
 [node name="input_manager" type="Node" parent="." unique_id=497881917]
 script = ExtResource("1_4wyf3")
 
-[node name="LineEdit" type="LineEdit" parent="." unique_id=910777111]
-offset_left = -576.0
-offset_top = -370.0
-offset_right = -507.5
-offset_bottom = -339.0
-
 [node name="Camera2D" type="Camera2D" parent="." unique_id=853290037 node_paths=PackedStringArray("target")]
+position = Vector2(578, 323)
 script = ExtResource("1_rwgxs")
 target = NodePath("../goal_finder")
 
@@ -114,10 +109,24 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = SubResource("Theme_f3sb7")
 
+[node name="LineEdit" type="LineEdit" parent="Camera2D/Control" unique_id=910777111]
+layout_mode = 0
+offset_left = -1154.0
+offset_top = -693.0
+offset_right = -1085.5
+offset_bottom = -662.0
+
 [node name="goal_finder" type="Node2D" parent="." unique_id=750568693]
+position = Vector2(578, 323)
 script = ExtResource("2_4wyf3")
 
 [node name="Area2D" type="Area2D" parent="goal_finder" unique_id=1030632033]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="goal_finder/Area2D" unique_id=603870960]
 shape = SubResource("CircleShape2D_rwgxs")
+
+[node name="Timer" type="Timer" parent="." unique_id=1153911527]
+wait_time = 3.0
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

@@ -8,8 +8,21 @@ var symbol := ""
 
 func _ready():
 	add_to_group("InputGoals")
-	generate_symbol()
 
-func generate_symbol():
-	symbol = G.generate_symbol()
+func generate_symbol(new_symbol: String):
+	symbol = new_symbol 
+	label.bbcode_enabled = true
 	label.text = symbol
+
+# ----------------------------------------------------
+# VISUAL STATE
+# ----------------------------------------------------
+
+func set_active(is_active: bool):
+
+	label.bbcode_enabled = true
+
+	if is_active:
+		label.text = "[color=white][wave amp=12 freq=4]%s[/wave][/color]" % symbol
+	else:
+		label.text = symbol

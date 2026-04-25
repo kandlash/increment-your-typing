@@ -1,7 +1,7 @@
 extends Node
 class_name InputManager
 
-@onready var line_edit: LineEdit = $"../LineEdit"
+@onready var line_edit: LineEdit = $"../Camera2D/Control/LineEdit"
 
 signal correct
 signal incorrect
@@ -19,8 +19,15 @@ func _ready():
 
 func start_typing(goal: InputGoal):
 
+	# сбрасываем предыдущую цель
+	if current_goal:
+		current_goal.set_active(false)
+
 	current_goal = goal
 	typing_allowed = true
+
+	# включаем wave
+	current_goal.set_active(true)
 
 	line_edit.clear()
 	line_edit.grab_focus()
@@ -78,16 +85,18 @@ func _process_char(ch: String):
 # ----------------------------------------------------
 
 func _handle_success():
-	print('correct!')
+	print("correct!")
 	emit_signal("correct")
-
 	_finish_goal()
 
 func _handle_mistake():
-	print('mistake!')
+	print("mistake!")
 	emit_signal("incorrect")
-
 	_finish_goal()
+
+# ----------------------------------------------------
+# FINISH FLOW
+# ----------------------------------------------------
 
 func _finish_goal():
 
@@ -97,9 +106,11 @@ func _finish_goal():
 	current_goal = null
 
 	if goal:
+		goal.set_active(false)
 		goal.area_2d.monitorable = false
 
 		await get_tree().create_timer(0.1).timeout
+		$"..".goals.erase(goal)
 		goal.queue_free()
 
 	await get_tree().physics_frame
