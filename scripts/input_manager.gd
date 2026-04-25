@@ -36,7 +36,7 @@ func start_typing(goal: InputGoal):
 # STOP
 # ----------------------------------------------------
 
-func _disable_typing():
+func disable_typing():
 	line_edit.clear()
 	typing_allowed = false
 	current_goal = null

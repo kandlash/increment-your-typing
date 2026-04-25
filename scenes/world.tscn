@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://cenc62ldt01kv" path="res://scripts/world.gd" id="1_71j4m"]
 [ext_resource type="Script" uid="uid://bj4qwcufvhp13" path="res://scripts/camera_2d.gd" id="1_rwgxs"]
 [ext_resource type="Script" uid="uid://ce1133xqf8wr5" path="res://scripts/goal_finder.gd" id="2_4wyf3"]
-[ext_resource type="Script" uid="uid://p67hkrnjiksh" path="res://scripts/score.gd" id="4_71j4m"]
+[ext_resource type="Script" path="res://scripts/score.gd" id="4_71j4m"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_k0juu"]
 bg_color = Color(0, 0, 0, 1)
@@ -17,6 +17,12 @@ bg_color = Color(0.120136164, 0.1038328, 0.095672674, 1)
 
 [sub_resource type="Theme" id="Theme_f3sb7"]
 Panel/styles/panel = SubResource("StyleBoxFlat_gv5m4")
+
+[sub_resource type="Theme" id="Theme_qfnet"]
+RichTextLabel/font_sizes/normal_font_size = 64
+
+[sub_resource type="Theme" id="Theme_i7141"]
+RichTextLabel/font_sizes/normal_font_size = 44
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_rwgxs"]
 radius = 188.13028
@@ -124,16 +130,52 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -274.0
-offset_right = 20.0
-offset_bottom = -234.0
+offset_left = -67.0
+offset_top = -312.0
+offset_right = 67.0
+offset_bottom = -196.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = SubResource("Theme_qfnet")
 text = "5"
 horizontal_alignment = 1
 vertical_alignment = 1
 script = ExtResource("4_71j4m")
+
+[node name="next_symbol_label" type="RichTextLabel" parent="Camera2D/Control" unique_id=1625128919]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -191.0
+offset_top = 159.0
+offset_right = 191.0
+offset_bottom = 275.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_i7141")
+bbcode_enabled = true
+text = "[wave]NEXT -> #symbol [/wave]"
+fit_content = true
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ProgressBar" type="ProgressBar" parent="Camera2D/Control" unique_id=656361060]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -183.0
+offset_top = 245.0
+offset_right = 183.0
+offset_bottom = 283.0
+grow_horizontal = 2
+grow_vertical = 2
+show_percentage = false
 
 [node name="goal_finder" type="Node2D" parent="." unique_id=750568693]
 position = Vector2(578, 323)
