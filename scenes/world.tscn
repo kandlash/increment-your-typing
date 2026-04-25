@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://cenc62ldt01kv" path="res://scripts/world.gd" id="1_71j4m"]
 [ext_resource type="Script" uid="uid://bj4qwcufvhp13" path="res://scripts/camera_2d.gd" id="1_rwgxs"]
 [ext_resource type="Script" uid="uid://ce1133xqf8wr5" path="res://scripts/goal_finder.gd" id="2_4wyf3"]
+[ext_resource type="Script" uid="uid://p67hkrnjiksh" path="res://scripts/score.gd" id="4_71j4m"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_k0juu"]
 bg_color = Color(0, 0, 0, 1)
@@ -115,6 +116,24 @@ offset_left = -1154.0
 offset_top = -693.0
 offset_right = -1085.5
 offset_bottom = -662.0
+
+[node name="score" type="RichTextLabel" parent="Camera2D/Control" unique_id=1296016976]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -274.0
+offset_right = 20.0
+offset_bottom = -234.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "5"
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("4_71j4m")
 
 [node name="goal_finder" type="Node2D" parent="." unique_id=750568693]
 position = Vector2(578, 323)
