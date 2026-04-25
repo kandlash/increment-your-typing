@@ -11,7 +11,7 @@ var typing_allowed := false
 
 func _ready():
 	G.input_manager = self
-	_disable_typing()
+	disable_typing()
 
 # ----------------------------------------------------
 # START TYPING

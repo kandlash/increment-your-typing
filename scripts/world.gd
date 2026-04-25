@@ -11,6 +11,7 @@ var goals: Array = []
 @onready var progress_bar: ProgressBar = $Camera2D/Control/ProgressBar
 var current_symbol := ""
 var text_template := ""
+@onready var symbol_label: Label = $Camera2D/Control/symbol_label
 
 func _ready() -> void:
 	var text_template := next_symbol_label.text
@@ -20,6 +21,7 @@ func _ready() -> void:
 
 	await get_tree().create_timer(0.5).timeout
 	G.goal_finder.select_new_target()
+	timer.start()
 
 func _process(delta: float) -> void:
 	if timer.is_stopped():
@@ -44,14 +46,27 @@ func generate_grid():
 			goal.position = start_pos + Vector2(x * spacing, y * spacing)
 
 func new_symbol():
+
+	G.input_manager.disable_typing()
+
+	for goal in goals:
+		if is_instance_valid(goal):
+			goal.visible = false
+
 	current_symbol = G.generate_symbol()
 
-	for goal: InputGoal in goals:
-		if not is_instance_valid(goal):
-			continue
-		goal.generate_symbol(current_symbol)
+	await symbol_label.play_animation(current_symbol)
+
+	for goal in goals:
+		if is_instance_valid(goal):
+			goal.visible = true
+			goal.generate_symbol(current_symbol)
 
 	update_next_symbol_label()
+
+	G.goal_finder.select_new_target()
+
+	timer.start()
 
 func update_next_symbol_label():
 	next_symbol_label.add_text(text_template.replace("#symbol", current_symbol)) 

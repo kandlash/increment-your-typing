@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://d0vfr4ryhm0fi"]
+
+[ext_resource type="Script" uid="uid://dkqx00dpb3cda" path="res://scripts/trail_circle.gd" id="1_1xv28"]
+
+[node name="TrailCircle" type="Node2D" unique_id=646097467]
+script = ExtResource("1_1xv28")

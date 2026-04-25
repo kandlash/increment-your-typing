@@ -4,7 +4,8 @@
 [ext_resource type="Script" uid="uid://cenc62ldt01kv" path="res://scripts/world.gd" id="1_71j4m"]
 [ext_resource type="Script" uid="uid://bj4qwcufvhp13" path="res://scripts/camera_2d.gd" id="1_rwgxs"]
 [ext_resource type="Script" uid="uid://ce1133xqf8wr5" path="res://scripts/goal_finder.gd" id="2_4wyf3"]
-[ext_resource type="Script" path="res://scripts/score.gd" id="4_71j4m"]
+[ext_resource type="Script" uid="uid://p67hkrnjiksh" path="res://scripts/score.gd" id="4_71j4m"]
+[ext_resource type="Script" uid="uid://cxt21ne76lhgk" path="res://scripts/symbol_label.gd" id="5_qfnet"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_k0juu"]
 bg_color = Color(0, 0, 0, 1)
@@ -23,6 +24,9 @@ RichTextLabel/font_sizes/normal_font_size = 64
 
 [sub_resource type="Theme" id="Theme_i7141"]
 RichTextLabel/font_sizes/normal_font_size = 44
+
+[sub_resource type="LabelSettings" id="LabelSettings_i7141"]
+font_size = 239
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_rwgxs"]
 radius = 188.13028
@@ -177,6 +181,30 @@ grow_horizontal = 2
 grow_vertical = 2
 show_percentage = false
 
+[node name="symbol_label" type="Label" parent="Camera2D/Control" unique_id=360885933]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -40.0
+offset_top = -183.0
+offset_right = 40.0
+offset_bottom = 183.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "J"
+label_settings = SubResource("LabelSettings_i7141")
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("5_qfnet")
+fade_in_time = 0.2
+fade_out_time = 0.35
+start_scale = 0.2
+pop_scale = 1.0
+shake_enabled = false
+
 [node name="goal_finder" type="Node2D" parent="." unique_id=750568693]
 position = Vector2(578, 323)
 script = ExtResource("2_4wyf3")
@@ -187,7 +215,7 @@ script = ExtResource("2_4wyf3")
 shape = SubResource("CircleShape2D_rwgxs")
 
 [node name="Timer" type="Timer" parent="." unique_id=1153911527]
-wait_time = 3.0
-autostart = true
+wait_time = 15.0
+one_shot = true
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

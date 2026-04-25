@@ -11,11 +11,18 @@ var pull_speed := 5.0
 var closest_goal: InputGoal = null
 var next_goal: InputGoal = null
 
-var circle: Line2D
-var line: Line2D
+# ----------------------------------------------------
+# TRAIL DATA (NO NODES)
+# ----------------------------------------------------
 
-signal label_entered
+var trail := [] # {pos: Vector2, life: float}
+var last_trail_pos: Vector2
 
+var trail_spacing := 8.0
+var trail_fade_speed := 2.5
+var trail_radius := 2.0
+
+# ----------------------------------------------------
 
 func _ready():
 
@@ -24,49 +31,8 @@ func _ready():
 
 	G.goal_finder = self
 
-	create_visuals()
+	last_trail_pos = core_pos
 
-
-# ----------------------------------------------------
-# VISUALS
-# ----------------------------------------------------
-
-func create_visuals():
-
-	circle = Line2D.new()
-	circle.width = 1
-	circle.default_color = Color(1, 1, 1, 0.6)
-	add_child(circle)
-
-	line = Line2D.new()
-	line.width = 1.5
-	line.default_color = Color(1, 1, 1, 0.4)
-	add_child(line)
-
-
-# ----------------------------------------------------
-# DRAWING
-# ----------------------------------------------------
-
-func draw_goal_circle(center: Vector2, radius := 15.0):
-
-	var points := []
-	var steps := 32
-
-	for i in range(steps + 1):
-		var a = i * TAU / steps
-		points.append(center + Vector2(cos(a), sin(a)) * radius)
-
-	circle.points = points
-
-
-func draw_target_line(from: Vector2, to: Vector2):
-
-	line.points = [from, to]
-
-
-# ----------------------------------------------------
-# PROCESS
 # ----------------------------------------------------
 
 func _process(delta):
@@ -76,31 +42,54 @@ func _process(delta):
 	if dir.length() > 5:
 		core_pos += dir * delta * pull_speed
 
+		handle_trail()
+
 	global_position = core_pos
 
-	# защита от удалённых целей
-	if closest_goal and not is_instance_valid(closest_goal):
-		closest_goal = null
-
-	if next_goal and not is_instance_valid(next_goal):
-		next_goal = null
-
-	# визуализация
-	if closest_goal and next_goal:
-
-		var from := to_local(closest_goal.global_position)
-		var to := to_local(next_goal.global_position)
-
-		draw_target_line(from, to)
-		draw_goal_circle(from, 15.0)
-
-	else:
-		line.clear_points()
-		circle.clear_points()
-
+	update_trail(delta)
+	queue_redraw()
 
 # ----------------------------------------------------
-# SHARED PICK LOGIC
+
+func handle_trail():
+
+	if last_trail_pos.distance_to(core_pos) < trail_spacing:
+		return
+
+	last_trail_pos = core_pos
+
+	trail.append({
+		"pos": to_local(core_pos),
+		"life": 1.0
+	})
+
+# ----------------------------------------------------
+
+func update_trail(delta):
+
+	for i in range(trail.size()):
+		trail[i]["life"] -= delta * trail_fade_speed
+
+	# чистка
+	while trail.size() > 0 and trail[0]["life"] <= 0:
+		trail.pop_front()
+
+# ----------------------------------------------------
+
+func _draw():
+
+	for p in trail:
+
+		var alpha = clamp(p["life"], 0.0, 1.0)
+
+		var radius = trail_radius + (1.0 - alpha) * 6.0
+
+		draw_circle(
+			p["pos"],
+			radius,
+			Color(1, 1, 1, alpha)
+		)
+
 # ----------------------------------------------------
 
 func pick_random_from_nearest(origin: Vector2, exclude: InputGoal = null) -> InputGoal:
@@ -114,84 +103,44 @@ func pick_random_from_nearest(origin: Vector2, exclude: InputGoal = null) -> Inp
 
 		var goal: InputGoal = area.get_parent()
 
-		# 🔥 FIX: защита от freed объектов
 		if not is_instance_valid(goal):
 			continue
 
 		if goal == exclude:
 			continue
 
-		var dist := origin.distance_to(goal.global_position)
-
-		candidates.append({
-			"goal": goal,
-			"dist": dist
-		})
+		candidates.append(goal)
 
 	if candidates.is_empty():
 		return null
 
-	candidates.sort_custom(func(a, b):
-		return a["dist"] < b["dist"]
-	)
+	return candidates[randi() % candidates.size()]
 
-	var max_candidates = min(5, candidates.size())
-	var random_index = randi() % max_candidates
-
-	return candidates[random_index]["goal"]
-
-
-# ----------------------------------------------------
-# TARGET SELECTION
 # ----------------------------------------------------
 
 func select_new_target():
 
-	# если уже есть next → используем его
 	if next_goal and is_instance_valid(next_goal):
-
 		closest_goal = next_goal
-		anchor_pos = closest_goal.global_position
+	else:
+		var chosen := pick_random_from_nearest(core_pos)
+		if chosen == null:
+			return
+		closest_goal = chosen
 
-		G.input_manager.start_typing(closest_goal)
-
-		find_next_goal()
-		return
-
-	# иначе выбираем новую
-	var chosen := pick_random_from_nearest(core_pos)
-
-	if chosen == null:
-		return
-
-	closest_goal = chosen
 	anchor_pos = closest_goal.global_position
 
 	G.input_manager.start_typing(closest_goal)
 
 	find_next_goal()
 
-
-# ----------------------------------------------------
-# NEXT TARGET
 # ----------------------------------------------------
 
 func find_next_goal():
 
 	area_2d.global_position = anchor_pos
-
 	await get_tree().physics_frame
 
 	next_goal = pick_random_from_nearest(anchor_pos, closest_goal)
 
 	area_2d.global_position = core_pos
-
-
-# ----------------------------------------------------
-# EXTERNAL TRIGGER
-# ----------------------------------------------------
-
-func _on_word_done():
-
-	await get_tree().create_timer(0.2).timeout
-	select_new_target()
